@@ -2,10 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -16,7 +12,80 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
-.App-link {
-  color: #09d3ac;
+.main_board {
+  margin-top: 40px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 }
+.web  {
+  min-width: 450px;
+}
+
+.mobile {
+  min-width: 315px;
+}
+
+.row-border {
+  border-bottom: 1px solid #c9d1d3;
+}
+.square {
+  text-align: center;
+  background: white;
+  border: 1px solid #c9d1d3;
+  color: #1b2a49;
+}
+.mobile .square {
+  width: 35px;
+  height: 35px;
+  float: left;
+  font-size: 1.1em;
+}
+
+.web .square{
+  width: 50px;
+  height: 50px;
+  font-size: 1.3em;
+
+}
+.bordered {
+  border-right: 2px solid #c9d1d3;  
+}
+
+.highlighted {
+  background: #e3e7f1;
+}
+
+.mobile .highlighted {
+  background: #e3e7f1;
+}
+.error {
+  color:red;
+}
+.valid {
+  color: #537ec5;
+}
+.focused {
+  background: #537ec5;
+}
+.buttons-group  {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 550px;
+  min-width: 360px;
+  text-align: center
+  
+}
+.mobile .indicators {
+  display: block;
+  position: absolute;
+  margin-top: 360px;
+}
+
+.web .indicators {
+  display: none;
+}
+
+
