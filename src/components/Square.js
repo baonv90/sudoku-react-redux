@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Button} from 'react-bootstrap';
 
 
 class Square extends Component {
@@ -22,7 +21,6 @@ class Square extends Component {
         
     }
     handleFocus = (event) => {
-        // console.log(event);
         this.props.selectSquare(this.props.xIndex, this.props.yIndex);
     }
 
@@ -45,13 +43,14 @@ class Square extends Component {
 
         return (
             type ?
+            // web 
             <input
                 className = {this.getClassName()}
                 onChange = {this.handleChange}
                 onFocus = {this.handleFocus}
                 value = {this.props.value} 
             /> : 
-          
+            // mobile
             <button
                 className= {this.getClassName()}
                 onChange = {this.handleChange}
