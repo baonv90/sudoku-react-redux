@@ -1,5 +1,5 @@
 import {SET_VALUE, SELECT_SQUARE, SOLVE_BOARD, NEW_BOARD, RESET_BOARD} from '../actions/sudokuActions';
-import {getRelated, isValidValue, isSquareValid, solveSudoku} from '../helpers/helpers';
+import {getRelated, isValidValue, isSafe, solveSudoku} from '../helpers/helpers';
 import {getRandomPuzzle} from '../puzzles/puzzles';
 
 let initalState = {
@@ -73,7 +73,7 @@ export function sudokuReducers (state = initalState, action) {
             newState.initialBoard[yIndex][xIndex] = newValue;
 
             if(isValidValue(newValue)) {
-                if(isSquareValid(yIndex, xIndex, newState.initialBoard))
+                if(isSafe(yIndex, xIndex, newState.initialBoard, newValue))
                 {   
                     newState.decoration[yIndex][xIndex] = 'valid';                  
                 }
@@ -141,20 +141,16 @@ export function sudokuReducers (state = initalState, action) {
                    }
                }
             }
+
+            let solvedBoard = [...initalState.initialBoard];
+            solveSudoku(initalState.initialBoard);
+
             let solvedState =  {
-                initialBoard : solveSudoku(initalState.initialBoard),
+                initialBoard : [...solvedBoard],
                 highlight : [...initalState.highlight],
                 decoration : [..._decoration],
                 currentFocus : ['',''] 
             } 
-
-            // solvedState =  {
-            //     initialBoard: solveSudoku(state.initialBoard),
-            //     highlight: [...state.highlight],
-            //     decoration: [..._decoration],
-            //     currentFocus : ['',''] 
-
-            // }
 
       
             return solvedState

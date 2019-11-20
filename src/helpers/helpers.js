@@ -1,7 +1,6 @@
 const POSSIBLES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-const VALID = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-
+// is the entered number valid (0 included)
 export function isValidValue(value) {
     if (value === '') {
         return true
@@ -12,13 +11,10 @@ export function isValidValue(value) {
     return POSSIBLES.indexOf(value) !== -1
 }
 
-export function isSquareValid(x, y, sudoku) {
-    const value = sudoku[x][y]
-    if (value === '') {
-        return true
-    }
-    // check peer list for this value being used else where
-    const relavtives = getRelated(x, y)
+// is the checking number invoked any conflicts 
+export function isSafe(row, col, sudoku, value) {
+   
+    const relavtives = getRelated(row, col)
     for(const relavtive of relavtives) {
         if (sudoku[relavtive.x][relavtive.y] === value) {
             return false
@@ -27,7 +23,10 @@ export function isSquareValid(x, y, sudoku) {
     return true
 }
 
+// get the related squares from its column, row and box
 export function getRelated(x, y) {
+    
+    // collumn and row
     let relatives = []
     for(let i = 0; i < 9; i++) {
         if (i !== x) {
@@ -37,9 +36,10 @@ export function getRelated(x, y) {
             relatives.push({ x, y: i,});
         }
     }
-    //the squares in the same box
-    const topLeftY = y - y % 3
-    const topLeftX = x - x % 3
+
+    // box
+    const topLeftY = y - y % 3;
+    const topLeftX = x - x % 3;
     for(let i = topLeftX; i < topLeftX + 3; i++) {
         for(let j = topLeftY; j < topLeftY + 3; j++) {
             if (j === y && i === x) {
@@ -54,86 +54,58 @@ export function getRelated(x, y) {
     return relatives
 }
 
-export function solveSudoku(board) {
-    let puzzle = [
-        [...board[0]],
-        [...board[1]],
-        [...board[2]],
-        [...board[3]],
-        [...board[4]],
-        [...board[5]],
-        [...board[6]],
-        [...board[7]],
-        [...board[8]],
-    ]
+// solve the sudoku board
 
-    let cycleImprovedAnswer = true
-    let remainingCells = []
-    while (cycleImprovedAnswer) {
-        cycleImprovedAnswer = false
-        remainingCells = []
-        // do a cycle and look for cells where their is only one possible value
-        for (let x = 0; x < 9; x++) {
-            for (let y = 0; y < 9; y++) {
-                const value = puzzle[x][y];
-                if (value) {
-                    continue 
-                }
+export function solveSudoku(puzzle) {
+    
+    var row = -1; 
+    var col = -1;
 
-                // get list of values in all peers
-                const peers = getRelated(x, y);
-                let usedValues = [];
-                for (var peer of peers) {
-                    usedValues.push(puzzle[peer.x][peer.y]);
-                }
-
-                // see what possibile values remain
-                const possibleValues = VALID.filter(value => usedValues.indexOf(value) === -1);
-                if (possibleValues.length === 1) {
-                    puzzle[x][y] = possibleValues[0]
-                    cycleImprovedAnswer = true
-                } else if (possibleValues.length === 0) {
-                    alert('Input is a unsolvable puzzle.')
-                    return [
-                        ['', '', '', '', '', '', '', '', ''],
-                        ['', '', '', '', '', '', '', '', ''],
-                        ['', '', '', '', '', '', '', '', ''],
-                        ['', '', '', '', '', '', '', '', ''],
-                        ['', '', '', '', '', '', '', '', ''],
-                        ['', '', '', '', '', '', '', '', ''],
-                        ['', '', '', '', '', '', '', '', ''],
-                        ['', '', '', '', '', '', '', '', ''],
-                        ['', '', '', '', '', '', '', '', ''],
-                    ]
-                } else {
-                    remainingCells.push({ x, y, possibleValues})
-                }
+    let isPuzzleSolved = true; 
+    for (let i = 0; i < 9; i++) 
+    { 
+        for (let j = 0; j < 9; j++)  
+        { 
+            if (puzzle[i][j] === '')  
+            { 
+                // row and column of blank square
+                row = i; 
+                col = j;         
+                
+                // puzzle has not been solved yet
+                isPuzzleSolved = false;  
+                break; 
+            } 
+        } 
+        if (!isPuzzleSolved) 
+        { 
+            break; 
+        } 
+    } 
+    //no blank square left 
+    if (isPuzzleSolved)  
+    { 
+        return true; 
+    } 
+    // try number from 1 to 9;
+    for( let num = 1; num <= 9; num++)
+    {   
+       
+        // if the entered num invokes no conflicts
+        if(isSafe(row, col, puzzle, num)) {
+            puzzle[row][col] = num;
+            
+            if(solveSudoku(puzzle))
+            {
+                //continue until all the blank square is filled
+                return true;
             }
+            else {
+                puzzle[row][col] = '';
+            } 
         }
     }
-
-    // Now use brute force to solve the remaining ambiguous cells.
-    // Use the list of possible values from the peer evaluation to limit the search space.
-    for (let i = 0; i < remainingCells.length; i++) {
-        const { x, y, possibleValues } = remainingCells[i]
-        let value = puzzle[x][y]
-        if (!value) {
-            value = possibleValues[0]
-        } else {
-            const indexOfCurrentValue = possibleValues.indexOf(value)
-            if (indexOfCurrentValue >= possibleValues.length - 1) {
-                // We are out of values for this cell backtrack on cell
-                puzzle[x][y] = ''
-                i = i - 2
-                continue
-            }
-            value = possibleValues[indexOfCurrentValue + 1]
-        }
-        puzzle[x][y] = value
-        if (!isSquareValid(x, y, puzzle)) {
-            i = i - 1 // this new square value is not valid
-            continue
-        }
-    }
-    return puzzle
+    return false
 }
+
+   

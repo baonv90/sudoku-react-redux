@@ -10,7 +10,7 @@ import NavBar from './components/NavBar';
 import ButtonsContainer from './containers/ButtonsContainer';
 
 
-
+//hook
 function WindowWidth() {
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -25,9 +25,9 @@ function WindowWidth() {
 }
 
 function App() {
+  
   const width = WindowWidth();
   
-
   return <Provider store={store}>
       <NavBar />
       <Board windowSize={width}/>

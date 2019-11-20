@@ -51,23 +51,14 @@ class Square extends Component {
                 onFocus = {this.handleFocus}
                 value = {this.props.value} 
             /> : 
-            // <Button  
-            //     onChange = {this.handleChange}
-            //     onFocus = {this.handleFocus}>
-            //     {this.props.value}
-            // </Button>
+          
             <button
                 className= {this.getClassName()}
                 onChange = {this.handleChange}
                 onFocus = {this.handleFocus}
                
             >{this.props.value}</button>
-            // <div 
-            //     // className= {this.getClassName()}
-            //     // onChange = {this.handleChange}
-            //     // onFocus = {this.handleFocus}
-            //     // value = {this.props.value}          
-            // />
+         
             
         );
     }

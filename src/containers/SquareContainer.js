@@ -8,18 +8,10 @@ const mapStateToProps = (state, ownProps) => {
     if (state['highlight'][ownProps.yIndex][ownProps.xIndex]) {
         highlighted = true;
     }
-    // let focused = false;
-    // console.log(state['currentFocus'] === [1, 1] );
-    // console.log([ownProps.xIndex, ownProps.yIndex]);
-    // if(state['currentFocus'] === [ownProps.xIndex, ownProps.yIndex])
-    // {
-    //     focused = true;
-    // }
     
     return {
         value: state['initialBoard'][ownProps.yIndex][ownProps.xIndex],
         highlighted,
-        // focused,
         decoration : state['decoration'][ownProps.yIndex][ownProps.xIndex]  
     }
 }
