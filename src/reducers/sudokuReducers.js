@@ -142,8 +142,19 @@ export function sudokuReducers (state = initalState, action) {
                }
             }
 
-            let solvedBoard = [...initalState.initialBoard];
-            solveSudoku(initalState.initialBoard);
+            let solvedBoard = [
+                [...state.initialBoard[0]],
+                [...state.initialBoard[1]],
+                [...state.initialBoard[2]],
+                [...state.initialBoard[3]],
+                [...state.initialBoard[4]],
+                [...state.initialBoard[5]],
+                [...state.initialBoard[6]],
+                [...state.initialBoard[7]],
+                [...state.initialBoard[8]],];
+            
+            solveSudoku(solvedBoard);
+
 
             let solvedState =  {
                 initialBoard : [...solvedBoard],
@@ -152,7 +163,6 @@ export function sudokuReducers (state = initalState, action) {
                 currentFocus : ['',''] 
             } 
 
-      
             return solvedState
 
         }
